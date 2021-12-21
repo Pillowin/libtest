@@ -1,0 +1,8 @@
+-Wall
+-Wextra
+-Werror
+-std=c++98
+-pedantic-errors
+-Iheader/
+-g3
+-fsanitize=address
