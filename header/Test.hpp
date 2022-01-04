@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/19 21:27:10 by agautier          #+#    #+#             */
-/*   Updated: 2022/01/04 19:59:08 by agautier         ###   ########.fr       */
+/*   Updated: 2022/01/04 20:19:59 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ class Test {
 
 		Test& operator=(Test const& rhs);
 
-		void registerTest(std::string const& name, t_test test);
+		void registerTest(std::string const name, t_test test);
 		bool run(void) const;
 
 	private:
-		std::map< std::string const&, t_test > tests;
-		const std::string					   name;
+		std::map< std::string const, t_test > tests;
+		const std::string					  name;
 };
 
 #endif
