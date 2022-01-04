@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/19 21:26:26 by agautier          #+#    #+#             */
-/*   Updated: 2022/01/04 19:59:05 by agautier         ###   ########.fr       */
+/*   Updated: 2022/01/04 20:03:35 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,11 @@ bool Test::run(void) const {
 
 	for (it = this->tests.begin(); it != this->tests.end(); ++it) {
 		if (it->second && (it->second)()) {
-			std::cout << GREEN << "  ✓ " << RESET << std::flush;
-			std::cout.flush();
+			std::cout << GREEN << "  ✓ " << RESET << it->first << std::endl;
 			passed += 1;
 		} else {
-			std::cout << RED << "  ❌" << RESET << std::flush;
+			std::cout << RED << "  ❌" << RESET << it->first << std::endl;
 		}
-		std::cout << it->first << std::endl;
 		total += 1;
 	}
 
