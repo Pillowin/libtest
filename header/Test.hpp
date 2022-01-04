@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/19 21:27:10 by agautier          #+#    #+#             */
-/*   Updated: 2022/01/04 19:41:16 by agautier         ###   ########.fr       */
+/*   Updated: 2022/01/04 19:59:08 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 
 #define GREEN "\033[0;32m"
 #define RED	  "\033[0;31m"
-#define GRAY  "\033[1;30m"
 #define RESET "\033[0m"
 
 #define assert(expr)                                                           \
