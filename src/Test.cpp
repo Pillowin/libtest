@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/19 21:26:26 by agautier          #+#    #+#             */
-/*   Updated: 2021/12/21 23:15:35 by agautier         ###   ########.fr       */
+/*   Updated: 2022/01/04 19:51:05 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 /*
 **	Default constructor.
 */
-Test::Test(char const* name) : tests(0), name(name) {}
+Test::Test(char const* name) : name(name) {}
 
 /*
 **	Copy constructor.
@@ -31,32 +31,41 @@ Test::~Test(void) {}
 /*
 **	Register a test function to tests list.
 */
-void Test::registerTest(t_test test) { this->tests.push_back(test); }
+void Test::registerTest(std::string const& name, t_test test) {
+	this->tests.insert(std::pair< std::string const&, t_test >(name, test));
+}
 
 /*
 **	Run all registered tests.
 */
 bool Test::run(void) const {
-	std::list< t_test >::const_iterator it;
-	uint8_t total  = 0;
-	uint8_t passed = 0;
+	std::map< std::string const&, t_test >::const_iterator it;
+	uint8_t												   total  = 0;
+	uint8_t												   passed = 0;
 
-	std::cout << "Starting " << this->name << std::endl;
+	std::cout << this->name << std::endl;
 
 	for (it = this->tests.begin(); it != this->tests.end(); ++it) {
-		if (*it && (*it)())
+		if (it->second && (it->second)()) {
+			std::cout << GREEN << "  ✓ " << RESET;
+			std::cout.flush();
 			passed += 1;
+		} else {
+			std::cout << RED << "  ❌" << RESET;
+			std::cout.flush();
+		}
+		std::cout << it->first << std::endl;
 		total += 1;
 	}
 
 	if (passed != total) {
-		std::cout << "[KO]\t" << total - passed << "/"
-				  << static_cast< unsigned >(total) << " Tests failed :("
+		std::cout << RED << "[KO] " << static_cast< unsigned >(passed) << "/"
+				  << static_cast< unsigned >(total) << " passed :(" << RESET
 				  << std::endl;
 	} else {
-		std::cout << "[OK]\t" << static_cast< unsigned >(total) << "/"
-				  << static_cast< unsigned >(total)
-				  << " Tests passed successfully :)" << std::endl;
+		std::cout << GREEN << "[OK] " << static_cast< unsigned >(passed) << "/"
+				  << static_cast< unsigned >(total) << " passed :)" << RESET
+				  << std::endl;
 	}
 
 	return (total == passed);

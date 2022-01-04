@@ -6,7 +6,7 @@
 #    By: agautier <agautier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/04 21:10:22 by agautier          #+#    #+#              #
-#    Updated: 2021/12/19 21:26:02 by agautier         ###   ########.fr        #
+#    Updated: 2022/01/04 19:46:54 by agautier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,6 +54,10 @@ $(DEP): $D%.d: $S%.cpp
 $(NAME): $(OBJ)
 	ar rcs $@ $^
 
+test: $(NAME)
+	@$(CXX) $(CXXFLAGS) main.cpp $(NAME)
+	@./a.out
+
 clean:
 	$(RMDIR) $(wildcard $(NAME).dSYM)
 	$(RMDIR) $O
@@ -62,6 +66,7 @@ clean:
 
 fclean: clean
 	$(RM) $(NAME)
+	@$(RM) a.out
 
 re: fclean
 	$(MAKE)
