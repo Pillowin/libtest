@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/19 21:27:10 by agautier          #+#    #+#             */
-/*   Updated: 2022/01/04 20:19:59 by agautier         ###   ########.fr       */
+/*   Updated: 2022/01/11 16:13:02 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,14 @@
 #include <stdint.h>
 #include <string>
 
-#define GREEN "\033[0;32m"
-#define RED	  "\033[0;31m"
-#define RESET "\033[0m"
+#define RESET  "\033[0m"
+#define RED	   "\033[31m"
+#define GREEN  "\033[32m"
+#define YELLOW "\033[33m"
+
+#define CHILD	0
+#define ERROR	-1
+#define TIMEOUT 10
 
 #define assert(expr)                                                           \
 	if (expr) {                                                                \
@@ -40,6 +45,7 @@
 	return false;
 
 typedef bool (*t_test)(void);
+typedef std::map< std::string const, t_test >::const_iterator t_test_it;
 
 class Test {
 	public:
@@ -51,11 +57,17 @@ class Test {
 		Test& operator=(Test const& rhs);
 
 		void registerTest(std::string const name, t_test test);
-		bool run(void) const;
+		bool run(void);
 
 	private:
 		std::map< std::string const, t_test > tests;
 		const std::string					  name;
+		uint8_t								  total;
+		uint8_t								  passed;
+
+		bool exec_test(t_test_it it) const;
+		void print_result(t_test_it it);
+		void print_total_result(void) const;
 };
 
 #endif

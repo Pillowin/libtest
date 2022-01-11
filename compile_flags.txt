@@ -3,6 +3,6 @@
 -Werror
 -std=c++98
 -pedantic-errors
--Iheader/
+-Iheader
 -g3
 -fsanitize=address
