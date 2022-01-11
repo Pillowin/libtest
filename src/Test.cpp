@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/19 21:26:26 by agautier          #+#    #+#             */
-/*   Updated: 2022/01/11 17:06:05 by agautier         ###   ########.fr       */
+/*   Updated: 2022/01/11 17:09:10 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,12 +97,12 @@ void Test::print_result(t_test_it it) {
 void Test::print_total_result(void) const {
 	if (this->passed != this->total) {
 		std::cout << RED << "[KO] " << static_cast< unsigned >(this->passed)
-				  << "/" << static_cast< unsigned >(this->total)
-				  << " this->passed :(" << RESET << std::endl;
+				  << "/" << static_cast< unsigned >(this->total) << " passed :("
+				  << RESET << std::endl;
 	} else {
 		std::cout << GREEN << "[OK] " << static_cast< unsigned >(this->passed)
-				  << "/" << static_cast< unsigned >(this->total)
-				  << " this->passed :)" << RESET << std::endl;
+				  << "/" << static_cast< unsigned >(this->total) << " passed :)"
+				  << RESET << std::endl;
 	}
 }
 
