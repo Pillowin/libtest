@@ -6,16 +6,16 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/19 21:27:10 by agautier          #+#    #+#             */
-/*   Updated: 2022/01/11 16:13:02 by agautier         ###   ########.fr       */
+/*   Updated: 2022/03/13 19:17:39 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TEST_HPP
 #define TEST_HPP
 
-#include <map>
 #include <stdint.h>
 #include <string>
+#include <vector>
 
 #define RESET  "\033[0m"
 #define RED	   "\033[31m"
@@ -45,7 +45,8 @@
 	return false;
 
 typedef bool (*t_test)(void);
-typedef std::map< std::string const, t_test >::const_iterator t_test_it;
+typedef std::vector< std::pair< std::string, t_test > >::const_iterator
+	t_test_it;
 
 class Test {
 	public:
@@ -60,10 +61,10 @@ class Test {
 		bool run(void);
 
 	private:
-		std::map< std::string const, t_test > tests;
-		const std::string					  name;
-		uint8_t								  total;
-		uint8_t								  passed;
+		std::vector< std::pair< std::string, t_test > > tests;
+		const std::string								name;
+		uint8_t											total;
+		uint8_t											passed;
 
 		bool exec_test(t_test_it it) const;
 		void print_result(t_test_it it);

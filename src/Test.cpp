@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/19 21:26:26 by agautier          #+#    #+#             */
-/*   Updated: 2022/01/11 17:09:10 by agautier         ###   ########.fr       */
+/*   Updated: 2022/03/13 19:17:09 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ Test::~Test(void) {}
 **	Register a test function to tests list.
 */
 void Test::registerTest(std::string const name, t_test test) {
-	this->tests.insert(std::pair< std::string const, t_test >(name, test));
+	this->tests.push_back(std::pair< std::string const, t_test >(name, test));
 }
 
 /*
