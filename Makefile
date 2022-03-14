@@ -6,7 +6,7 @@
 #    By: agautier <agautier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/04 21:10:22 by agautier          #+#    #+#              #
-#    Updated: 2022/01/04 19:46:54 by agautier         ###   ########.fr        #
+#    Updated: 2022/03/14 11:55:10 by agautier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ DEP			=	$(SRC:$S%.cpp=$D%.d)
 CXX			=	clang++
 
 CXXFLAGS	+=	-I$I
-CXXFLAGS	+=	-Wall -Wextra -Werror -std=c++98 -pedantic-errors
+CXXFLAGS	+=	-Wall -Wextra -Werror -std=c++98 -pedantic-errors -fPIE
 
 RM			=	/bin/rm -f
 RMDIR		=	/bin/rm -Rf
