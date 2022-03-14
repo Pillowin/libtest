@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/19 21:26:26 by agautier          #+#    #+#             */
-/*   Updated: 2022/03/13 19:17:09 by agautier         ###   ########.fr       */
+/*   Updated: 2022/03/14 14:03:50 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ void Test::registerTest(std::string const name, t_test test) {
 /*
 **	Execute test function in forked process.
 */
-bool Test::exec_test(t_test_it it) const {
+bool Test::exec_test(t_test t) const {
 	alarm(TIMEOUT);
-	if (it->second)
-		exit(it->second());
+	if (t)
+		exit(t());
 	exit(false);
 }
 
@@ -120,7 +120,9 @@ bool Test::run(void) {
 		if (pid == ERROR) {
 			return (false);
 		} else if (pid == CHILD) {
-			this->exec_test(it);
+			t_test test = it->second;
+			this->tests.~vector();
+			this->exec_test(test);
 		} else {
 			this->print_result(it);
 		}

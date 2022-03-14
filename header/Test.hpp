@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/19 21:27:10 by agautier          #+#    #+#             */
-/*   Updated: 2022/03/13 19:17:39 by agautier         ###   ########.fr       */
+/*   Updated: 2022/03/14 13:46:13 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ class Test {
 		uint8_t											total;
 		uint8_t											passed;
 
-		bool exec_test(t_test_it it) const;
+		bool exec_test(t_test t) const;
 		void print_result(t_test_it it);
 		void print_total_result(void) const;
 };
