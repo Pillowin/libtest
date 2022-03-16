@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/19 21:27:10 by agautier          #+#    #+#             */
-/*   Updated: 2022/03/14 13:46:13 by agautier         ###   ########.fr       */
+/*   Updated: 2022/03/16 16:46:51 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,21 @@
 #define ERROR	-1
 #define TIMEOUT 10
 
+#undef assert
 #define assert(expr)                                                           \
 	if (expr) {                                                                \
 		return true;                                                           \
 	}                                                                          \
 	return false;
 
+#undef assert_eq
 #define assert_eq(expr1, expr2)                                                \
 	if ((expr1) == (expr2)) {                                                  \
 		return true;                                                           \
 	}                                                                          \
 	return false;
 
+#undef assert_ne
 #define assert_ne(expr1, expr2)                                                \
 	if ((expr1) != (expr2)) {                                                  \
 		return true;                                                           \
