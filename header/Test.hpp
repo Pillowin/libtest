@@ -26,25 +26,25 @@
 #define ERROR	-1
 #define TIMEOUT 10
 
-#define ltest_assert(expr)                                                           \
+#define ltest_assert(expr)                                                     \
 	if ((expr) == true) {                                                      \
 		return true;                                                           \
 	}                                                                          \
 	return false;
 
-#define ltest_assert_n(expr)                                                         \
+#define ltest_assert_n(expr)                                                   \
 	if ((expr) != true) {                                                      \
 		return true;                                                           \
 	}                                                                          \
 	return false;
 
-#define ltest_assert_eq(expr1, expr2)                                                \
+#define ltest_assert_eq(expr1, expr2)                                          \
 	if ((expr1) == (expr2)) {                                                  \
 		return true;                                                           \
 	}                                                                          \
 	return false;
 
-#define ltest_assert_ne(expr1, expr2)                                                \
+#define ltest_assert_ne(expr1, expr2)                                          \
 	if ((expr1) != (expr2)) {                                                  \
 		return true;                                                           \
 	}                                                                          \
