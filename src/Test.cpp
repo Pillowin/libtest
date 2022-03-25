@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/19 21:26:26 by agautier          #+#    #+#             */
-/*   Updated: 2022/03/14 14:03:50 by agautier         ###   ########.fr       */
+/*   Updated: 2022/03/25 17:14:14 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ bool Test::run(void) {
 		} else if (pid == CHILD) {
 			t_test test = it->second;
 			this->tests.~vector();
+			this->name.~basic_string();
 			this->exec_test(test);
 		} else {
 			this->print_result(it);

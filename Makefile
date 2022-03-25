@@ -6,7 +6,7 @@
 #    By: agautier <agautier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/04 21:10:22 by agautier          #+#    #+#              #
-#    Updated: 2022/03/14 11:55:10 by agautier         ###   ########.fr        #
+#    Updated: 2022/03/25 18:04:21 by agautier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ SRC			=	$(wildcard $S*.cpp)
 OBJ			=	$(SRC:$S%.cpp=$O%.o)
 DEP			=	$(SRC:$S%.cpp=$D%.d)
 
-CXX			=	clang++
+CXX			=	c++
 
 CXXFLAGS	+=	-I$I
 CXXFLAGS	+=	-Wall -Wextra -Werror -std=c++98 -pedantic-errors -fPIE
