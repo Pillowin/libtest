@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/19 21:26:26 by agautier          #+#    #+#             */
-/*   Updated: 2022/03/25 17:14:14 by agautier         ###   ########.fr       */
+/*   Updated: 2022/03/30 17:33:04 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,29 +62,29 @@ void Test::print_result(t_test_it it) {
 		return;
 
 	if (WIFEXITED(wstatus) && WEXITSTATUS(wstatus)) {
-		std::cout << GREEN << "  ✓ " << RESET << it->first << std::endl;
+		std::cout << COLOR_GREEN << "  ✓ " << COLOR_RESET << it->first << std::endl;
 		this->passed += 1;
 	} else if (WIFEXITED(wstatus)) {
-		std::cout << RED << "  x " << RESET << it->first << std::endl;
+		std::cout << COLOR_RED << "  x " << COLOR_RESET << it->first << std::endl;
 	}
 
 	if (WIFSIGNALED(wstatus) && WTERMSIG(wstatus) == SIGSEGV) {
-		std::cout << YELLOW << "  [SEGV] " << RESET << it->first << std::endl;
+		std::cout << COLOR_YELLOW << "  [SEGV] " << COLOR_RESET << it->first << std::endl;
 	} else if (WIFSIGNALED(wstatus) && WTERMSIG(wstatus) == SIGBUS) {
-		std::cout << YELLOW << "  [BUS ERROR] " << RESET << it->first
+		std::cout << COLOR_YELLOW << "  [BUS ERROR] " << COLOR_RESET << it->first
 				  << std::endl;
 	} else if (WIFSIGNALED(wstatus) && WTERMSIG(wstatus) == SIGABRT) {
-		std::cout << YELLOW << "  [SIGABRT] " << RESET << it->first
+		std::cout << COLOR_YELLOW << "  [SIGABRT] " << COLOR_RESET << it->first
 				  << std::endl;
 	} else if (WIFSIGNALED(wstatus) && WTERMSIG(wstatus) == SIGFPE) {
-		std::cout << YELLOW << "  [SIGFPE] " << RESET << it->first << std::endl;
+		std::cout << COLOR_YELLOW << "  [SIGFPE] " << COLOR_RESET << it->first << std::endl;
 	} else if (WIFSIGNALED(wstatus) && WTERMSIG(wstatus) == SIGPIPE) {
-		std::cout << YELLOW << "  [SIGPIPE] " << RESET << it->first
+		std::cout << COLOR_YELLOW << "  [SIGPIPE] " << COLOR_RESET << it->first
 				  << std::endl;
 	} else if (WIFSIGNALED(wstatus) && WTERMSIG(wstatus) == SIGILL) {
-		std::cout << YELLOW << "  [SIGILL] " << RESET << it->first << std::endl;
+		std::cout << COLOR_YELLOW << "  [SIGILL] " << COLOR_RESET << it->first << std::endl;
 	} else if (WIFSIGNALED(wstatus) && WTERMSIG(wstatus) == SIGALRM) {
-		std::cout << YELLOW << "  [TIMEOUT] " << RESET << it->first
+		std::cout << COLOR_YELLOW << "  [TIMEOUT] " << COLOR_RESET << it->first
 				  << std::endl;
 	}
 
@@ -96,13 +96,13 @@ void Test::print_result(t_test_it it) {
 */
 void Test::print_total_result(void) const {
 	if (this->passed != this->total) {
-		std::cout << RED << "[KO] " << static_cast< unsigned >(this->passed)
+		std::cout << COLOR_RED << "[KO] " << static_cast< unsigned >(this->passed)
 				  << "/" << static_cast< unsigned >(this->total) << " passed :("
-				  << RESET << std::endl;
+				  << COLOR_RESET << std::endl;
 	} else {
-		std::cout << GREEN << "[OK] " << static_cast< unsigned >(this->passed)
+		std::cout << COLOR_GREEN << "[OK] " << static_cast< unsigned >(this->passed)
 				  << "/" << static_cast< unsigned >(this->total) << " passed :)"
-				  << RESET << std::endl;
+				  << COLOR_RESET << std::endl;
 	}
 }
 

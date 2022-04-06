@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/19 21:27:10 by agautier          #+#    #+#             */
-/*   Updated: 2022/03/17 17:47:31 by agautier         ###   ########.fr       */
+/*   Updated: 2022/03/30 17:32:11 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 #include <string>
 #include <vector>
 
-#define RESET  "\033[0m"
-#define RED	   "\033[31m"
-#define GREEN  "\033[32m"
-#define YELLOW "\033[33m"
+#define COLOR_RESET  "\033[0m"
+#define COLOR_RED	   "\033[31m"
+#define COLOR_GREEN  "\033[32m"
+#define COLOR_YELLOW "\033[33m"
 
 #define CHILD	0
 #define ERROR	-1
