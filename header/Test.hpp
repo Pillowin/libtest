@@ -1,24 +1,11 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Test.hpp                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/19 21:27:10 by agautier          #+#    #+#             */
-/*   Updated: 2022/03/30 17:32:11 by agautier         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#ifndef TEST_HPP
-#define TEST_HPP
+#pragma once
 
 #include <stdint.h>
 #include <string>
 #include <vector>
 
 #define COLOR_RESET  "\033[0m"
-#define COLOR_RED	   "\033[31m"
+#define COLOR_RED	 "\033[31m"
 #define COLOR_GREEN  "\033[32m"
 #define COLOR_YELLOW "\033[33m"
 
@@ -50,9 +37,16 @@
 	}                                                                          \
 	return false;
 
-typedef bool (*t_test)(void);
-typedef std::vector< std::pair< std::string, t_test > >::const_iterator
-	t_test_it;
+typedef bool (*t_test_fn)(void);
+typedef struct s_test
+{
+	std::string name;
+	t_test_fn	fn;
+	std::string expected_output;
+	std::string filename;
+	int			fd;
+}	t_test;
+typedef std::vector< t_test >::iterator t_test_it;
 
 class Test {
 	public:
@@ -63,18 +57,16 @@ class Test {
 
 		Test& operator=(Test const& rhs);
 
-		void registerTest(std::string const name, t_test test);
+		void registerTest(std::string const name, t_test_fn fn, char const* expected_output = NULL);
 		bool run(void);
 
 	private:
-		std::vector< std::pair< std::string, t_test > > tests;
-		const std::string								name;
-		uint8_t											total;
-		uint8_t											passed;
+		std::vector< t_test >	tests;
+		const std::string		name;
+		uint8_t					total;
+		uint8_t					passed;
 
-		bool exec_test(t_test t) const;
+		bool exec_test(t_test_it test) const;
 		void print_result(t_test_it it);
 		void print_total_result(void) const;
 };
-
-#endif

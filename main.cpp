@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 14:09:54 by agautier          #+#    #+#             */
-/*   Updated: 2022/01/11 17:00:33 by agautier         ###   ########.fr       */
+/*   Updated: 2022/07/05 13:38:51 by webforce3        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 #include <string>
 #include <unistd.h>
 
-bool test_assert(void) { assert(true); }
+bool test_assert(void) { ltest_assert(true); }
 bool test_assert_eq(void) {
-	assert_eq(std::string("toto"), std::string("toto"));
+	ltest_assert_eq(std::string("toto"), std::string("toto"));
 }
-bool test_assert_ne(void) { assert_ne(42, 12); }
-bool test_false(void) { assert(false); }
+bool test_assert_ne(void) { ltest_assert_ne(42, 12); }
+bool test_false(void) { ltest_assert(false); }
 bool test_sigsegv(void) {
 	raise(SIGSEGV);
 	return (false);

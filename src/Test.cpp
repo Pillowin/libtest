@@ -1,20 +1,10 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Test.cpp                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/19 21:26:26 by agautier          #+#    #+#             */
-/*   Updated: 2022/03/30 17:33:04 by agautier         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "Test.hpp"
 #include <cstdlib>
+#include <fstream>
 #include <iostream>
 #include <map>
 #include <string>
+#include <sstream>
 #include <sys/wait.h>
 #include <unistd.h>
 
@@ -29,31 +19,38 @@ Test::Test(char const* name) : name(name), total(0), passed(0) {}
 Test::Test(Test const& rhs) { *this = rhs; }
 
 /*
-**	Destructor.
+**	Destructorg
 */
 Test::~Test(void) {}
 
 /*
 **	Register a test function to tests list.
 */
-void Test::registerTest(std::string const name, t_test test) {
-	this->tests.push_back(std::pair< std::string const, t_test >(name, test));
+void Test::registerTest(std::string const name, t_test_fn fn, char const* expected_output) {
+	t_test test = {
+		name,
+		fn,
+		std::string(expected_output),
+		std::string("/tmp/libtest_XXXXXX"),
+		-1
+	};
+	this->tests.push_back(test);
 }
 
 /*
 **	Execute test function in forked process.
 */
-bool Test::exec_test(t_test t) const {
+bool Test::exec_test(t_test_it test) const {
 	alarm(TIMEOUT);
-	if (t)
-		exit(t());
+	if (test->fn)
+		exit(test->fn());
 	exit(false);
 }
 
 /*
 **	Print test function result.
 */
-void Test::print_result(t_test_it it) {
+void Test::print_result(t_test_it test) {
 	pid_t pid;
 	int	  wstatus;
 
@@ -61,30 +58,43 @@ void Test::print_result(t_test_it it) {
 	if (pid == ERROR)
 		return;
 
+	if (!test->expected_output.empty()) {
+		close(test->fd);
+		std::ifstream tmpFile(test->filename.c_str());
+		std::stringstream buffer;
+		buffer << tmpFile.rdbuf();
+		std::string const str = buffer.str();
+		if (test->expected_output.compare(str) != 0) {
+			std::cout << COLOR_RED << "  x " << COLOR_RESET << test->name << std::endl;
+			this->total += 1;
+			return ;
+		}
+	}
+
 	if (WIFEXITED(wstatus) && WEXITSTATUS(wstatus)) {
-		std::cout << COLOR_GREEN << "  ✓ " << COLOR_RESET << it->first << std::endl;
+		std::cout << COLOR_GREEN << "  ✓ " << COLOR_RESET << test->name << std::endl;
 		this->passed += 1;
 	} else if (WIFEXITED(wstatus)) {
-		std::cout << COLOR_RED << "  x " << COLOR_RESET << it->first << std::endl;
+		std::cout << COLOR_RED << "  x " << COLOR_RESET << test->name << std::endl;
 	}
 
 	if (WIFSIGNALED(wstatus) && WTERMSIG(wstatus) == SIGSEGV) {
-		std::cout << COLOR_YELLOW << "  [SEGV] " << COLOR_RESET << it->first << std::endl;
+		std::cout << COLOR_YELLOW << "  [SEGV] " << COLOR_RESET << test->name << std::endl;
 	} else if (WIFSIGNALED(wstatus) && WTERMSIG(wstatus) == SIGBUS) {
-		std::cout << COLOR_YELLOW << "  [BUS ERROR] " << COLOR_RESET << it->first
+		std::cout << COLOR_YELLOW << "  [BUS ERROR] " << COLOR_RESET << test->name
 				  << std::endl;
 	} else if (WIFSIGNALED(wstatus) && WTERMSIG(wstatus) == SIGABRT) {
-		std::cout << COLOR_YELLOW << "  [SIGABRT] " << COLOR_RESET << it->first
+		std::cout << COLOR_YELLOW << "  [SIGABRT] " << COLOR_RESET << test->name
 				  << std::endl;
 	} else if (WIFSIGNALED(wstatus) && WTERMSIG(wstatus) == SIGFPE) {
-		std::cout << COLOR_YELLOW << "  [SIGFPE] " << COLOR_RESET << it->first << std::endl;
+		std::cout << COLOR_YELLOW << "  [SIGFPE] " << COLOR_RESET << test->name << std::endl;
 	} else if (WIFSIGNALED(wstatus) && WTERMSIG(wstatus) == SIGPIPE) {
-		std::cout << COLOR_YELLOW << "  [SIGPIPE] " << COLOR_RESET << it->first
+		std::cout << COLOR_YELLOW << "  [SIGPIPE] " << COLOR_RESET << test->name
 				  << std::endl;
 	} else if (WIFSIGNALED(wstatus) && WTERMSIG(wstatus) == SIGILL) {
-		std::cout << COLOR_YELLOW << "  [SIGILL] " << COLOR_RESET << it->first << std::endl;
+		std::cout << COLOR_YELLOW << "  [SIGILL] " << COLOR_RESET << test->name << std::endl;
 	} else if (WIFSIGNALED(wstatus) && WTERMSIG(wstatus) == SIGALRM) {
-		std::cout << COLOR_YELLOW << "  [TIMEOUT] " << COLOR_RESET << it->first
+		std::cout << COLOR_YELLOW << "  [TIMEOUT] " << COLOR_RESET << test->name
 				  << std::endl;
 	}
 
@@ -110,22 +120,29 @@ void Test::print_total_result(void) const {
 **	Run all registered tests.
 */
 bool Test::run(void) {
-	t_test_it it;
 	pid_t	  pid;
 
 	std::cout << this->name << std::endl;
 
-	for (it = this->tests.begin(); it != this->tests.end(); ++it) {
+	for (t_test_it test = this->tests.begin(); test != this->tests.end(); ++test) {
+		int fd = -1;
+		if (!test->expected_output.empty()) {
+			fd = mkstemp(&(*test->filename.begin()));
+			if (fd == -1)
+				return (false);
+		}
 		pid = fork();
 		if (pid == ERROR) {
 			return (false);
 		} else if (pid == CHILD) {
-			t_test test = it->second;
+			if (!test->expected_output.empty()) {
+				dup2(fd, STDOUT_FILENO);
+			}
 			this->tests.~vector();
 			this->name.~basic_string();
 			this->exec_test(test);
 		} else {
-			this->print_result(it);
+			this->print_result(test);
 		}
 	}
 
