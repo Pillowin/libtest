@@ -31,7 +31,7 @@ void Test::registerTest(std::string const name, t_test_fn fn, char const* expect
 		name,
 		fn,
 		expected_output ? std::string(expected_output) : std::string(),
-		std::string("/tmp/libtest_XXXXXX"),
+		std::string("/tmp/.libtest_XXXXXX"),
 		-1
 	};
 	this->tests.push_back(test);
@@ -126,11 +126,9 @@ bool Test::run(void) {
 
 	for (t_test_it test = this->tests.begin(); test != this->tests.end(); ++test) {
 		int fd = -1;
-		if (!test->expected_output.empty()) {
-			fd = mkstemp(&(*test->filename.begin()));
-			if (fd == -1)
-				return (false);
-		}
+		fd = mkstemp(&(*test->filename.begin()));
+		if (fd == -1)
+			return (false);
 		pid = fork();
 		if (pid == ERROR) {
 			return (false);
