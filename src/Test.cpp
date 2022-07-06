@@ -30,7 +30,7 @@ void Test::registerTest(std::string const name, t_test_fn fn, char const* expect
 	t_test test = {
 		name,
 		fn,
-		std::string(expected_output),
+		expected_output ? std::string(expected_output) : std::string(),
 		std::string("/tmp/libtest_XXXXXX"),
 		-1
 	};
@@ -40,10 +40,10 @@ void Test::registerTest(std::string const name, t_test_fn fn, char const* expect
 /*
 **	Execute test function in forked process.
 */
-bool Test::exec_test(t_test_it test) const {
+bool Test::exec_test(t_test_fn fn) const {
 	alarm(TIMEOUT);
-	if (test->fn)
-		exit(test->fn());
+	if (fn)
+		exit(fn());
 	exit(false);
 }
 
@@ -140,7 +140,7 @@ bool Test::run(void) {
 			}
 			this->tests.~vector();
 			this->name.~basic_string();
-			this->exec_test(test);
+			this->exec_test(test->fn);
 		} else {
 			this->print_result(test);
 		}

@@ -66,7 +66,7 @@ class Test {
 		uint8_t					total;
 		uint8_t					passed;
 
-		bool exec_test(t_test_it test) const;
+		bool exec_test(t_test_fn fn) const;
 		void print_result(t_test_it it);
 		void print_total_result(void) const;
 };
