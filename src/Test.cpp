@@ -58,8 +58,8 @@ void Test::print_result(t_test_it test) {
 	if (pid == ERROR)
 		return;
 
+	close(test->fd);
 	if (!test->expected_output.empty()) {
-		close(test->fd);
 		std::ifstream tmpFile(test->filename.c_str());
 		std::stringstream buffer;
 		buffer << tmpFile.rdbuf();
@@ -135,9 +135,7 @@ bool Test::run(void) {
 		if (pid == ERROR) {
 			return (false);
 		} else if (pid == CHILD) {
-			if (!test->expected_output.empty()) {
-				dup2(fd, STDOUT_FILENO);
-			}
+			dup2(fd, STDOUT_FILENO);
 			this->tests.~vector();
 			this->name.~basic_string();
 			this->exec_test(test->fn);
