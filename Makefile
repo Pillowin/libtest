@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: agautier <agautier@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/12/04 21:10:22 by agautier          #+#    #+#              #
-#    Updated: 2022/03/25 18:04:21 by agautier         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 S			=	src/
 I			=	header/
 O			=	obj/
@@ -21,10 +9,10 @@ SRC			=	$(wildcard $S*.cpp)
 OBJ			=	$(SRC:$S%.cpp=$O%.o)
 DEP			=	$(SRC:$S%.cpp=$D%.d)
 
-CXX			=	c++
+CXX			=	clang++
 
 CXXFLAGS	+=	-I$I
-CXXFLAGS	+=	-Wall -Wextra -Werror -std=c++98 -pedantic-errors -fPIE
+CXXFLAGS	+=	-Wall -Wextra -Werror -std=c++98 -pedantic-errors
 
 RM			=	/bin/rm -f
 RMDIR		=	/bin/rm -Rf
